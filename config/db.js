@@ -1,7 +1,7 @@
 const { MongoClient } = require('mongodb');
 
 const uri = 'mongodb://localhost:27017/'; // Connection URI for local MongoDB
-const dbName = 'evenbooking'; // Database name
+const dbName = 'eventbooking'; // Database name
 
 let db; // Variable to store the database connection
 
