@@ -1,7 +1,7 @@
 const Event = require('../models/event');
 
 // Create Event
-export async function createEvent(req, res) {
+exports.createEvent = async (req, res) => {
   try {
     const event = new Event({ ...req.body, organizerId: req.user.id });
     await event.save();
@@ -12,7 +12,7 @@ export async function createEvent(req, res) {
 }
 
 // Edit Event
-export async function editEvent(req, res) {
+exports.editEvent = async (req, res) => {
   try {
     const event = await findByIdAndUpdate(req.params.id, req.body, { new: true });
     res.status(200).send(event);
@@ -22,7 +22,7 @@ export async function editEvent(req, res) {
 }
 
 // Delete Event
-export async function deleteEvent(req, res) {
+exports.deleteEvent = async (req, res) => {
   try {
     await findByIdAndDelete(req.params.id);
     res.status(200).send('Event deleted');
@@ -32,7 +32,7 @@ export async function deleteEvent(req, res) {
 }
 
 // Get Events
-export async function getEvents(req, res) {
+exports.getEvent = async (req, res) => {
   try {
     const events = await find({ organizerId: req.user.id });
     res.status(200).send(events);

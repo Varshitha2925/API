@@ -1,6 +1,5 @@
-const Organizer = require('./models/organizer');
+const Organizer = require('../models/organizer');
 const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
 
 // Register
 exports.register = async (req, res) => {

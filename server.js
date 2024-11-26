@@ -17,6 +17,11 @@ const cors = require('cors');
 // Allow CORS for all origins
 app.use(cors());
 
+// Admin Routes
+app.use('/api/admin', adminRoutes);
+app.use('/api/auth', authRoutes);
+app.use('/api/events', eventRoutes);
+
 app.options('*', (req, res) => {
     res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
@@ -43,9 +48,6 @@ app.listen(PORT, () => {
 //   }
 // });
 
-// Admin Routes
-app.use('/api/admin', adminRoutes);
-app.use('/api/auth', authRoutes);
-app.use('/api/events', eventRoutes);
+
 
 module.exports = app
