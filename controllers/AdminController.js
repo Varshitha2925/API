@@ -1,5 +1,5 @@
 const User = require('../models/users');
-const Event = require('../models/Event');
+const Event = require('../models/event');
 const Booking = require('../models/Booking');
 
 
@@ -8,6 +8,7 @@ const Booking = require('../models/Booking');
 exports.getAllUsers = async (req, res) => {
   try {
     const users = await User.find({});
+    console.log("data")
     res.status(200).send({
       success: true,
       message: "Users data list",

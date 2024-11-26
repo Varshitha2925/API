@@ -1,30 +1,24 @@
 const { MongoClient } = require('mongodb');
-const { connect } = require('mongoose');
 
-// Connection URI (replace this with your Compass connection string)
-const uri = "mongodb://localhost:27017/evenbooking"; // Example for a local database
+const uri = 'mongodb://localhost:27017/'; // Connection URI for local MongoDB
+const dbName = 'evenbooking'; // Database name
 
-// Create a new MongoClient
-const client = new MongoClient(uri);
+let db; // Variable to store the database connection
 
-async function main() {
-    try {
-        // Connect to the MongoDB server
-        await client.connect();
-        console.log("Connected to MongoDB");
+// Function to connect to MongoDB
+async function connectToDatabase() {
+  if (db) return db; // Return existing connection if already established
 
-        // Specify the database to use
-        const db = client.db("testDB"); // Replace "testDB" with your database name
-
-        // Example: Fetch collections
-        const collections = await db.listCollections().toArray();
-        console.log("Collections:", collections);
-    } catch (error) {
-        console.error("Error connecting to MongoDB:", error);
-    } finally {
-        // Close the connection
-        await client.close();
-    }
+  try {
+    const client = new MongoClient(uri);
+    await client.connect();
+    console.log('Connected to MongoDB');
+    db = client.db(dbName); // Store the database instance
+    return db;
+  } catch (error) {
+    console.error('Error connecting to MongoDB:', error);
+    throw error;
+  }
 }
 
-module.exports = main()
+module.exports = connectToDatabase;

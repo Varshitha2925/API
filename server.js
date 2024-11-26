@@ -1,6 +1,9 @@
 const express = require('express');
 const adminRoutes = require('./routes/admin');
-const main = require("./config/db");
+const connectToDatabase = require('./config/db');
+
+const authRoutes = require('./routes/authRoutes');
+const eventRoutes = require('./routes/eventRoutes');
 
 
 
@@ -9,7 +12,6 @@ app.use(express.json());
 
 const cors = require('cors');
 
-const port = process.env.PORT || 3001;
 
 
 // Allow CORS for all origins
@@ -21,16 +23,29 @@ app.options('*', (req, res) => {
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
     res.sendStatus(200);
   });
-  
+// Start Server
+
+db = connectToDatabase(); // Connect to MongoDB and get the database instance
+
+const PORT = 3001;
+app.listen(PORT, () => {
+  console.log(`Server is running on http://localhost:${PORT}`);
+});
+
+// app.get('/users', async (req, res) => {
+//   try {
+//     const collection = db.collection('users');
+//     const data = await collection.find().toArray();
+//     res.json(data);
+//   } catch (error) {
+//     console.error('Error fetching data:', error);
+//     res.status(500).send('Internal Server Error');
+//   }
+// });
 
 // Admin Routes
 app.use('/api/admin', adminRoutes);
-
-// Start Server
-main()
-
-app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
-});
+app.use('/api/auth', authRoutes);
+app.use('/api/events', eventRoutes);
 
 module.exports = app
