@@ -3,7 +3,8 @@ const Event = require('../models/event');
 // Create Event
 exports.createEvent = async (req, res) => {
   try {
-    const event = new Event({ ...req.body, organizerId: req.user.id });
+    
+    const event = new Event(req.body);
     await event.save();
     res.status(201).send(event);
   } catch (err) {

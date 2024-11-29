@@ -1,24 +1,14 @@
-const { MongoClient } = require('mongodb');
+const mongoose = require("mongoose");
 
-const uri = 'mongodb://localhost:27017/'; // Connection URI for local MongoDB
-const dbName = 'eventbooking'; // Database name
-
-let db; // Variable to store the database connection
-
-// Function to connect to MongoDB
-async function connectToDatabase() {
-  if (db) return db; // Return existing connection if already established
-
+const connectDb = async () => {
   try {
-    const client = new MongoClient(uri);
-    await client.connect();
-    console.log('Connected to MongoDB');
-    db = client.db(dbName); // Store the database instance
-    return db;
-  } catch (error) {
-    console.error('Error connecting to MongoDB:', error);
-    throw error;
+    const connect = await mongoose.connect(process.env.CONNECTION_STRING);
+    
+    console.log("Database connected", connect.connection.host);
+  } catch (err) {
+    console.log(err);
+    console.log("Database not connected");
   }
-}
+};
 
-module.exports = connectToDatabase;
+module.exports = connectDb;
