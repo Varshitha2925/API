@@ -18,6 +18,7 @@ exports.register = async (req, res) => {
 exports.login = async (req, res) => {
   
     const { email, password } = req.body;
+    console.log("req.body",req.body)
     if (!email || !password) {
       res.status(400);
       throw new Error("All fields are mandatory");
@@ -28,7 +29,6 @@ exports.login = async (req, res) => {
       const accessToken = jwt.sign(
         {
           user: {
-            username: user.username,
             email: user.email,
             id: user.id,
           },
@@ -36,7 +36,7 @@ exports.login = async (req, res) => {
         process.env.ACCESS_TOKEN_SECRET,
         { expiresIn: "10h" }
       );
-      res.status(200).json({ accessToken });
+      res.status(200).json({user});
       // logger.customerLogger.log("info", "Successfully logged in");
     } else {
       res.status(401);

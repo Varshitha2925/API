@@ -1,6 +1,7 @@
 const User = require('../models/user');
 const Event = require('../models/event');
 const Booking = require('../models/booking');
+const Payment = require('../models/payment')
 
 
 
@@ -69,12 +70,12 @@ exports.editEvent = async (req, res) => {
 
 // Delete an event
 exports.deleteEvent = async (req, res) => {
-  const eventId = req.params.id;
   try {
-    await Event.findByIdAndDelete(eventId);
+    const {id} = req.params
+    const deletedEvent = await Event.findOneAndDelete({ id:id });
     res.status(200).json({ message: 'Event deleted successfully' });
   } catch (error) {
-    res.status(500).json({ error: 'Failed to delete event' });
+    res.status(500).json({ error: error });
   }
 };
 
@@ -85,6 +86,17 @@ exports.getAllBookings = async (req, res) => {
       .populate('userId', 'name email')
       .populate('eventId', 'title location date');
     res.status(200).json(bookings);
+  } 
+  catch (error) {
+    res.status(500).json({ error: 'Failed to fetch bookings' });
+  }
+};
+
+// Get all Payments
+exports.getPayments = async (req, res) => {
+  try {
+    const payments = await Payment.find()
+    res.status(200).json(payments);
   } catch (error) {
     res.status(500).json({ error: 'Failed to fetch bookings' });
   }

@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-const userController = require('../controllers/usercontroller');
 const {
     searchEvents,
     getBookings,
@@ -9,7 +8,9 @@ const {
     register,
     login,
     getAllEvents,
-    addbooking
+    addbooking,
+    payment,
+    updateBookings
 } = require("../controllers/usercontroller")
 
 // Search Events
@@ -18,9 +19,11 @@ const {
 router.get('/events', getAllEvents);
 
 // View/Cancel Bookings
-router.get('/bookings', getBookings);
+router.get('/bookings/:id', getBookings);
 
 router.delete('/bookings/:id', cancelBooking);
+
+router.put('/bookings/:id', updateBookings);
 
 // Update Profile
 router.put('/profile', updateProfile);
@@ -33,5 +36,8 @@ router.post('/login', login);
 
 //Booking
 router.post('/booking',addbooking)
+
+//payment
+router.post('/payment',payment)
 
 module.exports = router;

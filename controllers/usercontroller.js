@@ -5,7 +5,7 @@ const Booking = require('../models/booking');
 
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const booking = require('../models/booking');
+const Payment = require('../models/payment');
 // Register
 exports.register = async (req, res) => {
   try {
@@ -96,9 +96,12 @@ exports.addbooking = async (req, res) => {
 
 // Manage Bookings
 exports.getBookings = async (req, res) => {
+  console.log("params", req.params.id)
   try {
-    const user = await User.findById(req.user.id).populate('bookings');
-    res.status(200).json(user.bookings);
+    const user = await Booking.find().where({userId: '674776eb2d8f7573bb7a9720'});
+    res.status(200).json({
+      data : user
+    });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -122,6 +125,53 @@ exports.updateProfile = async (req, res) => {
     res.status(200).json(updatedUser);
   } catch (err) {
     res.status(500).json({ message: err.message });
+  }
+};
+
+// Update Bookings
+exports.updateBookings = async (req, res) => {
+  try {
+    const updatedUser = await User.findByIdAndUpdate(req.user.id, req.body, { new: true });
+   
+    res.status(200).json(updatedUser);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+
+//Payment 
+exports.payment= async (req, res) => {
+  try {
+    const { bookingId, cardNumber, expiryDate, cvv, amount } = req.body;
+    const booking = await Booking.findByIdAndUpdate(bookingId, {
+      booking_status:"confirmed"
+    });
+    const event = await Event.findOne({id:booking.eventId})
+    event.ticketSold = event.ticketSold + booking.no_of_tickets
+    await event.save()
+    const paymentStatus = 'success'; 
+    const payment = new Payment({
+      bookingId,
+      cardNumber: cardNumber.slice(-4), 
+      expiryDate,
+      amount,
+      status: paymentStatus,
+    });
+    await payment.save();
+
+    // const booking = await Booking.findByIdAndUpdate(bookingId,
+    //   booking_status= "confirmed",);
+    
+    if (paymentStatus === 'success') {
+      booking.booking_status = 'confirmed';
+      await booking.save();
+    }
+
+    res.status(200).json({ message: 'Payment successful', payment });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Payment processing failed' });
   }
 };
 

@@ -1,11 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const eventController = require('../controllers/eventController');
 const {
     createEvent,
     editEvent,
     deleteEvent,
-    getEvent
+    getEvent,
+    getBooking
 
 } = require("../controllers/eventController")
 
@@ -13,6 +13,7 @@ const {
 router.post('/', createEvent);
 router.put('/:id', editEvent);
 router.delete('/:id', deleteEvent);
-router.get('/', getEvent);
+router.get('/getevents/:id', getEvent);
+router.get('/booking/:id', getBooking);
 
 module.exports = router;

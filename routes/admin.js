@@ -8,7 +8,8 @@ const {
     blockUser,
     unblockUser,
     editEvent,
-    deleteEvent
+    deleteEvent,
+    getPayments
 
 
 } = require("../controllers/AdminController")
@@ -22,5 +23,6 @@ router.get('/events', getAllEvents);
 router.patch('/events/:id', editEvent);
 router.delete('/events/:id', deleteEvent);
 router.get('/bookings', getAllBookings);
+router.get('/payment',getPayments);
 
 module.exports = router;
