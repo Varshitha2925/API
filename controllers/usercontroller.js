@@ -27,7 +27,7 @@ exports.login = async (req, res) => {
       res.status(400);
       throw new Error("All fields are mandatory");
     }
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email }).where(blocked = 'false');
 
     //compare password with hashed password
     if (user && (await bcrypt.compare(password, user.password))) {
@@ -94,11 +94,11 @@ exports.addbooking = async (req, res) => {
   }
 };
 
-// Manage Bookings
+// Get Bookings
 exports.getBookings = async (req, res) => {
   console.log("params", req.params.id)
   try {
-    const user = await Booking.find().where({userId: '674776eb2d8f7573bb7a9720'});
+    const user = await Booking.find().where({userId: req.params.id});
     res.status(200).json({
       data : user
     });
@@ -111,6 +111,9 @@ exports.cancelBooking = async (req, res) => {
   try {
     const booking = await Booking.findById(req.params.id);
     if (!booking) return res.status(404).send('Booking not found');
+    const event = await Event.findOne({id:booking.eventId})
+    event.ticketSold = event.ticketSold - booking.no_of_tickets
+    await event.save()
     await booking.deleteOne();
     res.status(200).send('Booking cancelled');
   } catch (err) {

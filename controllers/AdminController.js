@@ -1,7 +1,8 @@
 const User = require('../models/user');
 const Event = require('../models/event');
 const Booking = require('../models/booking');
-const Payment = require('../models/payment')
+const Payment = require('../models/payment');
+const Organizer = require('../models/organizer')
 
 
 
@@ -27,6 +28,7 @@ exports.getAllUsers = async (req, res) => {
 // Block a user
 exports.blockUser = async (req, res) => {
   const userId = req.params.id;
+  console.log("true")
   try {
     await User.findByIdAndUpdate(userId, { blocked: true });
     res.status(200).json({ message: 'User blocked successfully' });
@@ -76,6 +78,15 @@ exports.deleteEvent = async (req, res) => {
     res.status(200).json({ message: 'Event deleted successfully' });
   } catch (error) {
     res.status(500).json({ error: error });
+  }
+};
+//Fetch all organizers
+exports.getOrganizers = async (req, res) => {
+  try {
+    const organizer = await Organizer.find()
+    res.status(200).json(organizer);
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to fetch organizer' });
   }
 };
 

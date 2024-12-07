@@ -9,20 +9,21 @@ const {
     unblockUser,
     editEvent,
     deleteEvent,
-    getPayments
-
+    getPayments,
+    getOrganizers
 
 } = require("../controllers/AdminController")
 
 
 // Routes for Admin Management
 router.get('/users', getAllUsers);
-router.patch('/users/:id/block', blockUser);
+router.patch('/users/:id', blockUser);
 router.patch('/users/:id/unblock', unblockUser);
 router.get('/events', getAllEvents);
 router.patch('/events/:id', editEvent);
 router.delete('/events/:id', deleteEvent);
 router.get('/bookings', getAllBookings);
 router.get('/payment',getPayments);
+router.get('/organizer',getOrganizers);
 
 module.exports = router;

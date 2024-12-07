@@ -7,6 +7,7 @@ exports.createEvent = async (req, res) => {
     console.log("req.body", req.body.newEvent)
     const event = new Event({...req.body.newEvent});
     event.eventId = event._id;
+
     await event.save();
     res.status(201).send(event);
   } catch (err) {
@@ -24,6 +25,7 @@ exports.editEvent = async (req, res) => {
     const {id} = req.params
     const event = await Event.findOneAndUpdate({id:id} , { $set: req.body.newEvent }, // Apply updates from req.body
       { new: true } )
+    console.log("event:",event)
 
     res.status(200).send(event);
   } catch (err) {
@@ -33,13 +35,14 @@ exports.editEvent = async (req, res) => {
 
 // Delete Event
 exports.deleteEvent = async (req, res) => {
-
+  console.log("params: ", req.params)
   try {
     const {id} = req.params
-    const deletedEvent = await Event.findOneAndDelete({ id:id });
+    
+    const deletedEvent = await Event.findOneAndDelete({id : id});
     console.log("delete Event",deletedEvent)
 
-    res.status(200).send('Event deleted',deletedEvent);
+    // res.status(200).send('Event deleted',deletedEvent);`
   } catch (err) {
     res.status(400).send("err",err.message);
   }

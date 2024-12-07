@@ -45,3 +45,23 @@ exports.login = async (req, res) => {
     }
     //   res.json({ message: "Login user" });
     }
+exports.getOrganizer = async (req, res) => {
+      console.log("req.params",req.params.id)
+      try {
+        const organizer = await Organizer.findById(req.params.id)
+        console.log("Organizer",organizer)
+        res.status(200).json(organizer);
+      } catch (error) {
+        res.status(500).json({ error: 'Failed to fetch organizer' });
+      }
+    };
+exports.getUpdate = async (req, res) => {
+      console.log("req.params",req.params.id)
+      try {
+        const organizer = await Organizer.findByIdAndUpdate(req.params.id,req.body)
+        console.log("Organizer",organizer)
+        res.status(200).json(organizer);
+      } catch (error) {
+        res.status(500).json({ error: 'Failed to fetch organizer' });
+      }
+    };
