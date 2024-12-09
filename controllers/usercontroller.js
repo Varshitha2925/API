@@ -27,7 +27,7 @@ exports.login = async (req, res) => {
       res.status(400);
       throw new Error("All fields are mandatory");
     }
-    const user = await User.findOne({ email }).where(blocked = 'false');
+    const user = await User.findOne({ email }).where(verified = 'true');
 
     //compare password with hashed password
     if (user && (await bcrypt.compare(password, user.password))) {

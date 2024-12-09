@@ -30,7 +30,7 @@ exports.blockUser = async (req, res) => {
   const userId = req.params.id;
   console.log("true")
   try {
-    await User.findByIdAndUpdate(userId, { blocked: true });
+    await User.findByIdAndUpdate(userId, { verified: true });
     res.status(200).json({ message: 'User blocked successfully' });
   } catch (error) {
     res.status(500).json({ error: 'Failed to block user' });
@@ -41,7 +41,7 @@ exports.blockUser = async (req, res) => {
 exports.unblockUser = async (req, res) => {
   const userId = req.params.id;
   try {
-    await User.findByIdAndUpdate(userId, { blocked: false });
+    await User.findByIdAndUpdate(userId, { verified: false });
     res.status(200).json({ message: 'User unblocked successfully' });
   } catch (error) {
     res.status(500).json({ error: 'Failed to unblock user' });
