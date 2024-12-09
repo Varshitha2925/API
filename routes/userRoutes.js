@@ -10,7 +10,9 @@ const {
     getAllEvents,
     addbooking,
     payment,
-    updateBookings
+    updateBookings,
+    getUser,
+    getUpdate
 } = require("../controllers/usercontroller")
 
 // Search Events
@@ -39,5 +41,11 @@ router.post('/booking',addbooking)
 
 //payment
 router.post('/payment',payment)
+
+//get User
+router.get('/user/:id', getUser);
+
+//update User
+router.post('/user/:id', getUpdate);
 
 module.exports = router;

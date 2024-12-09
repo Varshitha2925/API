@@ -9,7 +9,7 @@ const eventSchema = new mongoose.Schema({
   enddate: { type: Date, },
   startTime:{ type: String },
   endTime:{ type: String },
-  duration: { type: Number }, // in hours
+  duration: { type: String }, // in hours
   type: { type: String, required: true },
   price: { type: Number, default: 0 },
   ticketSold: {type:Number},
