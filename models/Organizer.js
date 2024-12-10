@@ -7,6 +7,8 @@ const organizerSchema = new mongoose.Schema({
   password: { type: String, required: true },
   phone: { type: String },
   ssn: {type: String},
+  state: { type: String },
+  zipcode: {type: String },
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now },
 });
